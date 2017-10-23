@@ -42,13 +42,16 @@ export class Sliding extends Component {
       <tr className="link-section" key={sliding._id}>
         <td>{count++}</td>
         <td onClick={this.handleUrl.bind(this, sliding._id)}>{sliding.name}</td>
-        <td onClick={this.handleUrl.bind(this, sliding._id)}>{sliding.file.name}</td>
+        <td>
+          <a href="" className="fa fa-pencil" onClick={this.showModal.bind(this, sliding._id, sliding.name)}></a>
+        </td>
+        {/* <td onClick={this.handleUrl.bind(this, sliding._id)}>{sliding.file.name}</td> */}
         <td>{sliding.createdAt.toDateString()}</td>
         <td>
             <img width="150px" height="100px" src={`/uploads/${sliding.file.name}`} />
         </td>
         <td>
-          <a href="" className="fa fa-pencil" onClick={this.showModal.bind(this, sliding._id, sliding.name, sliding.tag)}></a>
+          <a href="" className="fa fa-pencil" onClick={this.showModal.bind(this, sliding._id, sliding.name)}></a>
         </td>
 
         <td onClick={handleCheckboxChange.bind(this, sliding._id)}>
@@ -69,8 +72,7 @@ export class Sliding extends Component {
       event.preventDefault();
 
       let sl = this.props.slidings;
-      let cnt = sl.length
-      console.log(cnt)
+      let cnt = sl.length;
       if (cnt < 3){
       $('#modal-upload').openModal();
       }
@@ -81,26 +83,32 @@ export class Sliding extends Component {
   }
 
   //display Modal for editing the sliding
-  showModal(id, name, tag, event) {
+  showModal(id, name, event) {
     event.preventDefault();
-    $('#sliding').val(name);
-    $('#stag').val(tag);
-    $(".slidingId").val(id);
+    // $('#sliding').val(name);
+    // $('#stag').val(tag);
+    // $(".slidingId").val(id);
+    //
+    // // this.setState({data:name})
+    // $("#model-sliding").openModal();
 
-    // this.setState({data:name})
-    $("#edit-sliding").openModal();
+    $('#modal-edit').openModal();
+    //$('#sliding-id').val(id);
+    $('.resourceId').val(id);
+    $('#resource-name').val(name);
+
   }
 
   handleSubmit(event) {
     event.preventDefault();
 
     var sku = $('#NewSliding').val();
-    var skuCode = $('#NewStag').val();
+    // var skuCode = $('#NewStag').val();
     var id = new Meteor.Collection.ObjectID().valueOf();
     Session.set('sliding', id);
 
     // TODO: //add a callback same on other meteor methods
-    Meteor.call('addSliding', id, sku, skuCode);
+    Meteor.call('addSliding', id, sku);
 
     toastMsg(true, 'Sliding has been successfully added');
     $('#modal-sliding').closeModal();
@@ -146,18 +154,17 @@ export class Sliding extends Component {
   //Update the name of the sliding
   editSliding(event) {
     event.preventDefault();
-    var slidingName = $('#sliding').val();
-    var stag = $('#stag').val();
-    var slidingId = $('.slidingId').val();
 
-    Meteor.call('editSliding', slidingId, slidingName, stag, function(err) {
-      if (err) {
-        toastMsg(true, err.reason);
-      } else {
+    var slidingName = $('#resource-name').val();
+    // var stag = $('#stag').val();
+    // var slidingId = $('#sliding-id').val();
+    var slidingId = $(".resourceId").val();
+
+    Meteor.call('editSliding', slidingId, slidingName) ;
+
         toastMsg(true, 'The Sliding has been successfully updated');
-        $("#edit-sliding").closeModal();
-      }
-    });
+        $("#modal-edit").closeModal();
+      // }
 
   }
 
@@ -210,31 +217,30 @@ export class Sliding extends Component {
 
         {/* Modal for Editing the Sliding */}
 
-        <div id="edit-sliding" className="modal">
-          <div ref='modal_edit' className="modal-content">
-            <a href="" className="pull-right modal-action modal-close fa fa-times fa-1x waves-effect waves-green btn-flat"></a>
-            <h4>Edit The Sliding</h4>
-            <div className="row">
-              <form onSubmit={this.editSliding.bind(this)}>
-                <div className="row">
-                  <div className="input-field">
-                    <input placeholder="Sliding" id="sliding" type="text" className="validate clear"/>
-                    <input placeholder="Sliding Code" id="stag" type="text" className="validate clear"/>
-                    <input type="hidden" className="slidingId"/>
-                  </div>
-                </div>
-                <div className="modal-footer">
+                        <div id="modal-edit" className="modal">
+                            <div ref='modal_edit' className="modal-content">
+                                <a href="" className="pull-right modal-action modal-close fa fa-times fa-1x waves-effect waves-green btn-flat"></a>
+                                <h4>Edit The Sliding</h4>
+                                <div className="row">
+                                    <form onSubmit={this.editSliding.bind(this)}>
+                                        <div className="row">
+                                            <div className="input-field">
+                                                <input placeholder="Sliding" id="resource-name" type="text" className="validate clear"/>
+                                                <input type="hidden" className="resourceId"/>
+                                            </div>
+                                        </div>
+                                        <div className="modal-footer">
 
-                  <button className="btn waves-effect waves-light left fa fa-save" role='submit'>
-                    Save</button>
-                  <a href="" className=" modal-action modal-close waves-effect waves-green btn grey darken-3 right">
-                    Close</a>
+                                            <button className="btn waves-effect waves-light left fa fa-save" role='submit'> Save</button>
+                                            <a href="" className=" modal-action modal-close waves-effect waves-green btn grey darken-3 right"> Close</a>
 
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+
 
         <div className="row">
           <div className="col m3">
@@ -276,10 +282,11 @@ export class Sliding extends Component {
                 <tr>
                   <th>#</th>
                   <th>Sliding moto</th>
-                  <th>Image Name</th>
+                  <th>Edit Moto</th>
+                  {/* <th>Image Name</th> */}
                   <th>Created At</th>
                   <th>Sliding Image</th>
-                  <th>Edit Sliding</th>
+                  <th>Change Image</th>
 
                   <th onClick={handleCheckAll.bind(this, 'chk-all', 'chk')}>
                     <input type="checkbox" className='filled-in chk-all' readOnly/>

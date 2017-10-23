@@ -50,7 +50,7 @@ Meteor.startup(function() {
               // var unitId = unit.unitId;
               // var unitName = unit.name;
 
-              Meteor.call('addSliding',slidingId, resourcName, resourcName, file,
+              Meteor.call('addSliding',slidingId, resourcName, file,
               function(err){
                 if (err) {
                   Session.set('error', err.reason);
