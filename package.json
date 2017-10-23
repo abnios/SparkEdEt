@@ -1,0 +1,39 @@
+{
+  "name": "manoap",
+  "private": true,
+  "scripts": {
+    "start": "meteor run",
+    "desktop": "meteor-desktop"
+  },
+  "dependencies": {
+    "babel-runtime": "^6.26.0",
+    "bcrypt": "^0.8.7",
+    "body-parser": "^1.15.2",
+    "core-js": "^2.4.1",
+    "meteor-node-stubs": "~0.2.0",
+    "pdfjs-dist": "^1.5.437",
+    "prop-types": "^15.6.0",
+    "react": "^15.6.2",
+    "react-addons-pure-render-mixin": "^15.6.2",
+    "react-dom": "^15.6.2",
+    "react-dropzone": "^3.9.1",
+    "react-mounter": "^1.2.0",
+    "request": "^2.75.0"
+  },
+  "version": "1.0.0",
+  "description": "Content Platfrom",
+  "main": "index.js",
+  "devDependencies": {
+    "pdfjs-dist": "^1.5.437"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hackersguild/manoap.git"
+  },
+  "author": "Hackers Guild",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hackersguild/manoap/issues"
+  },
+  "homepage": "https://github.com/hackersguild/manoap#readme"
+}

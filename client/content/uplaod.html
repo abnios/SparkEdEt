@@ -1,0 +1,26 @@
+<template name="file_upload">
+  <div class="row m12 upload">
+          <div class="col m9">
+            <div class="input-field col s12">
+                  <input id="resource_name" type="text" class="validate" placeholder="Resource Name" required>
+                </div>
+
+<div class="col m12 ">
+  <main >
+    {{>Template.dynamic template=content}}
+      {{> upload_bootstrap }}
+  </main>
+</div>
+</div>
+
+</div>
+<script>
+  window.onload = initProgress();
+
+  function initProgress(){
+    $('.progress-bar').addClass('progress');
+
+    }
+
+  </script>
+</template>
